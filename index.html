@@ -31,8 +31,10 @@
         .skill-item i { font-size: 1.8rem; color: var(--primary); }
         .skill-item span { font-size: 0.6rem; letter-spacing: 1px; color: #888; font-weight: 700; }
         .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .project-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 204, 0, 0.1); padding: 20px; border-radius: 4px; transition: 0.3s; text-align: left; }
+        .project-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 204, 0, 0.1); padding: 20px; border-radius: 4px; transition: 0.3s; text-align: left; position: relative; }
         .project-card:hover { border-color: var(--primary); background: rgba(255, 204, 0, 0.05); transform: translateY(-5px); }
+        .git-link { position: absolute; top: 15px; right: 15px; color: var(--primary); font-size: 1.1rem; opacity: 0.6; transition: 0.3s; z-index: 10; }
+        .git-link:hover { opacity: 1; transform: scale(1.2); }
         .music-player { position: fixed; bottom: 20px; left: 20px; display: flex; align-items: center; gap: 12px; background: rgba(0, 0, 0, 0.9); padding: 10px; border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 8px; opacity: 0; transition: 2s; z-index: 100; }
         .player-cover { width: 45px; height: 45px; border-radius: 4px; overflow: hidden; }
         .player-cover img { width: 100%; height: 100%; object-fit: cover; }
@@ -87,14 +89,18 @@
         </div>
         <h2 class="section-title" id="title-projects">Recent Projects</h2>
         <div class="projects-grid">
-            <a href="https://itroz-footpredictor.streamlit.app/" target="_blank" class="project-card">
-                <h3 style="color:var(--primary); margin:0; font-size:0.9rem;" id="p1-title">FOOT PREDICTOR</h3>
-                <p style="font-size:0.75rem; color:#888; margin-top:5px;" id="p1-desc">AI Match Forecasting</p>
-            </a>
-            <a href="https://github.com/clementrnx" target="_blank" class="project-card">
+            <div class="project-card">
+                <a href="https://github.com/clementrnx/footpredictor" target="_blank" class="git-link"><i class="fa-brands fa-github"></i></a>
+                <a href="https://itroz-footpredictor.streamlit.app/" target="_blank">
+                    <h3 style="color:var(--primary); margin:0; font-size:0.9rem;" id="p1-title">FOOT PREDICTOR</h3>
+                    <p style="font-size:0.75rem; color:#888; margin-top:5px;" id="p1-desc">AI Match Forecasting</p>
+                </a>
+            </div>
+            <div class="project-card">
+                <a href="https://github.com/clementrnx" target="_blank" class="git-link"><i class="fa-brands fa-github"></i></a>
                 <h3 style="color:var(--primary); margin:0; font-size:0.9rem;" id="p2-title">TWITCH TOOLS</h3>
                 <p style="font-size:0.75rem; color:#888; margin-top:5px;" id="p2-desc">Automation Utility</p>
-            </a>
+            </div>
         </div>
     </div>
     <div id="music-player" class="music-player">
