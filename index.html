@@ -133,7 +133,7 @@
     </div>
 
     <div id="music-player" class="music-player">
-        <div class="player-cover"><img src="pcht.jpeg"></div>
+        <div class="player-cover"><img src="rsrc/pcht.jpeg"></div>
         <div class="track-info">
             <span class="track-name">Van Basten</span>
             <span class="track-artist">R2 ft. Meryl</span>
@@ -144,7 +144,7 @@
         </div>
     </div>
 
-    <audio id="bg-music" loop><source src="song.mp3" type="audio/mpeg"></audio>
+    <audio id="bg-music" loop><source src="rsrc/song.mp3" type="audio/mpeg"></audio>
 
     <script>
         const langData = {
@@ -218,7 +218,6 @@
             
             const now = audioCtx.currentTime;
             
-            // 1. IMPACT SONORE IMMÉDIAT
             const osc = audioCtx.createOscillator(); const oscG = audioCtx.createGain(); const filt = audioCtx.createBiquadFilter();
             osc.type='triangle'; osc.frequency.setValueAtTime(100, now); osc.frequency.exponentialRampToValueAtTime(30, now+0.6);
             filt.type='lowpass'; filt.frequency.setValueAtTime(150, now); oscG.gain.setValueAtTime(1.5, now); oscG.gain.exponentialRampToValueAtTime(0.001, now+0.9);
@@ -228,15 +227,13 @@
             buzz.frequency.setValueAtTime(1200, now); buzzG.gain.setValueAtTime(0, now); buzzG.gain.linearRampToValueAtTime(0.06, now+0.2); buzzG.gain.exponentialRampToValueAtTime(0.0001, now+6);
             buzz.connect(buzzG).connect(audioCtx.destination); buzz.start(); buzz.stop(now+6);
 
-            // 2. MUSIQUE START SIMULTANÉMENT AVEC EFFET
             audio.play();
             const targetVol = document.getElementById('volume-control').value;
             lowpass.frequency.setValueAtTime(100, now); 
-            lowpass.frequency.exponentialRampToValueAtTime(20000, now + 5); // Ouverture du filtre sur 5s
+            lowpass.frequency.exponentialRampToValueAtTime(20000, now + 5); 
             gainNode.gain.setValueAtTime(0.01, now);
-            gainNode.gain.linearRampToValueAtTime(targetVol, now + 5); // Fade in sur 5s
+            gainNode.gain.linearRampToValueAtTime(targetVol, now + 5); 
 
-            // visuel
             const overlay = document.getElementById('click-overlay');
             overlay.style.opacity = '0';
             document.getElementById('music-player').style.opacity = '1';
