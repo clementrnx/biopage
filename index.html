@@ -6,80 +6,127 @@
     <title>clementrnxx</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #ffcc00; --bg-dark: #000000; }
+        :root { --primary: #ffcc00; --bg-dark: #000000; --transition-speed: 0.8s; }
+        
+        @keyframes rainbow-glow {
+            0% { --primary: #ff0000; color: #ff0000; border-color: #ff0000; }
+            17% { --primary: #ff8800; color: #ff8800; border-color: #ff8800; }
+            33% { --primary: #ffff00; color: #ffff00; border-color: #ffff00; }
+            50% { --primary: #00ff00; color: #00ff00; border-color: #00ff00; }
+            67% { --primary: #0088ff; color: #0088ff; border-color: #0088ff; }
+            83% { --primary: #8800ff; color: #8800ff; border-color: #8800ff; }
+            100% { --primary: #ff0000; color: #ff0000; border-color: #ff0000; }
+        }
+
+        .rainbow-mode, .rainbow-mode .glitch, .rainbow-mode .section-title, 
+        .rainbow-mode .icon-button i, .rainbow-mode .skill-item i, 
+        .rainbow-mode .track-name, .rainbow-mode .music-btn, 
+        .rainbow-mode .git-link i, .rainbow-mode .project-card h3,
+        .rainbow-mode #custom-tooltip, .rainbow-mode .journey-dot, .rainbow-mode .journey-date { 
+            animation: rainbow-glow 4s linear infinite !important; 
+        }
+
         body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; overflow-x: hidden; cursor: crosshair; }
-        a { text-decoration: none !important; color: inherit !important; outline: none; }
+        a { text-decoration: none !important; color: inherit !important; }
+        
         #fireflies-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .cursor-glow { position: fixed; top: 0; left: 0; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 204, 0, 0.08) 0%, rgba(255, 204, 0, 0) 70%); border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: -1; }
+        
+        .cursor-glow { position: fixed; top: 0; left: 0; width: 400px; height: 400px; background: radial-gradient(circle, var(--primary) 0%, rgba(0, 0, 0, 0) 70%); opacity: 0.15; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: -1; transition: background var(--transition-speed); }
+
+        #custom-tooltip { position: fixed; padding: 6px 12px; background: rgba(0, 0, 0, 0.9); border: 1px solid var(--primary); color: var(--primary); font-size: 0.65rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; border-radius: 4px; pointer-events: none; opacity: 0; transform: translate(-50%, -20px); transition: opacity 0.3s, transform 0.3s; z-index: 10001; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
+
         .language-picker { position: fixed; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 10000; }
         .flag { width: 22px; cursor: pointer; transition: 0.3s; opacity: 0.3; border-radius: 2px; }
-        .flag:hover { transform: scale(1.2); opacity: 0.8; }
         .flag.active { opacity: 1; border: 1px solid var(--primary); }
-        .click-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9998; display: flex; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); transition: opacity 2s ease, visibility 2s; cursor: pointer; }
-        .glitch { font-size: 3rem; font-weight: 900; color: var(--primary); text-transform: uppercase; position: relative; display: inline-block; }
-        .glitch:hover { animation: glitch-anim 0.3s infinite; }
-        @keyframes glitch-anim { 0% { transform: translate(0); text-shadow: -2px 0 red, 2px 0 blue; } 50% { transform: translate(2px, -2px); text-shadow: 2px 0 red, -2px 0 blue; } 100% { transform: translate(0); } }
+
+        .click-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9998; display: flex; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(15px); transition: opacity 2s ease, visibility 2s; cursor: pointer; }
+        
+        .glitch { font-size: 3rem; font-weight: 900; color: var(--primary); text-transform: uppercase; transition: color var(--transition-speed); }
         .container { text-align: center; width: 90%; max-width: 700px; padding: 40px 0; }
-        .section-title { font-size: 0.7rem; letter-spacing: 5px; margin: 35px 0 20px 0; color: var(--primary); text-transform: uppercase; }
+        
+        .section-title { font-size: 0.7rem; letter-spacing: 5px; margin: 35px 0 20px 0; color: var(--primary); text-transform: uppercase; transition: color var(--transition-speed); }
+
         .icon-grid { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
         .icon-button { width: 45px; height: 45px; border-radius: 50%; border: 1px solid rgba(255, 204, 0, 0.2); display: flex; justify-content: center; align-items: center; transition: 0.3s; background: rgba(0, 0, 0, 0.3); }
-        .icon-button i { color: var(--primary); font-size: 1.2rem; }
+        .icon-button i { color: var(--primary); font-size: 1.2rem; transition: color var(--transition-speed); }
         .icon-button:hover { background: var(--primary); box-shadow: 0 0 20px var(--primary); transform: translateY(-3px); }
-        .icon-button:hover i { color: black; }
-        .skills-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
-        .skill-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .skill-item i { font-size: 1.8rem; color: var(--primary); }
-        .skill-item span { font-size: 0.6rem; letter-spacing: 1px; color: #888; font-weight: 700; }
-        .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .project-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 204, 0, 0.1); border-radius: 4px; transition: 0.3s; text-align: left; position: relative; overflow: hidden; }
+        .icon-button:hover i { color: black !important; }
+
+        .journey-container { max-width: 480px; margin: 20px auto 40px auto; position: relative; padding-left: 45px; text-align: left; }
+        .journey-container::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, transparent, var(--primary), transparent); opacity: 0.2; }
+        .journey-item { position: relative; margin-bottom: 25px; perspective: 1000px; }
+        .journey-dot { position: absolute; left: -51px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: var(--bg-dark); border: 2px solid var(--primary); border-radius: 50%; z-index: 2; transition: 0.4s; box-shadow: 0 0 10px var(--primary); }
+        .journey-item:hover .journey-dot { background: var(--primary); transform: translateY(-50%) scale(1.5); box-shadow: 0 0 25px var(--primary); }
+        .journey-content { padding: 12px 20px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%); border: 1px solid rgba(255, 204, 0, 0.1); border-radius: 12px; transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1); backdrop-filter: blur(5px); }
+        .journey-item:hover .journey-content { transform: rotateY(-5deg) translateX(10px); border-color: var(--primary); background: rgba(255, 204, 0, 0.05); box-shadow: -15px 10px 30px rgba(0,0,0,0.5); }
+        .journey-date { font-family: 'Courier New', monospace; font-size: 0.7rem; font-weight: 900; color: var(--primary); letter-spacing: 2px; display: block; margin-bottom: 4px; opacity: 0.8; }
+        .journey-title { font-size: 0.9rem; margin: 0; color: #fff; font-weight: 800; letter-spacing: 1px; }
+        .journey-desc { font-size: 0.75rem; color: #aaa; margin-top: 6px; line-height: 1.4; transition: 0.3s; }
+        .journey-item:hover .journey-desc { color: #eee; }
+
+        .skills-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 10px; }
+        .skill-item { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 60px; }
+        .skill-item i { font-size: 2rem; color: var(--primary); transition: color var(--transition-speed); }
+        .skill-item span { font-size: 0.65rem; letter-spacing: 1.5px; color: #aaa; font-weight: 600; text-transform: uppercase; }
+
+        .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+        .project-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 204, 0, 0.1); border-radius: 6px; transition: 0.3s; text-align: left; position: relative; overflow: hidden; }
         .project-card:hover { border-color: var(--primary); background: rgba(255, 204, 0, 0.05); transform: translateY(-5px); }
-        .project-main-link { display: block; padding: 20px; width: 100%; height: 100%; }
-        .git-link { position: absolute; top: 15px; right: 15px; color: var(--primary); font-size: 1.1rem; opacity: 0.6; transition: 0.3s; z-index: 10; }
+        .project-main-link { display: block; padding: 25px 20px; width: 100%; height: 100%; }
+        .project-card h3 { margin: 0; font-size: 0.9rem; color: var(--primary); transition: color var(--transition-speed); }
+        .git-link { position: absolute; top: 12px; right: 12px; color: var(--primary); font-size: 1.1rem; opacity: 0.5; z-index: 20; transition: 0.3s; }
         .git-link:hover { opacity: 1; transform: scale(1.2); }
+
         .music-player { position: fixed; bottom: 20px; left: 20px; display: flex; align-items: center; gap: 12px; background: rgba(0, 0, 0, 0.9); padding: 10px; border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 8px; opacity: 0; transition: 2s; z-index: 100; }
         .player-cover { width: 45px; height: 45px; border-radius: 4px; overflow: hidden; }
         .player-cover img { width: 100%; height: 100%; object-fit: cover; }
-        .track-info { display: flex; flex-direction: column; text-align: left; }
-        .track-name { font-size: 0.7rem; font-weight: 700; color: var(--primary); }
-        .track-artist { font-size: 0.55rem; color: #aaa; }
-        .music-btn { background: none; border: none; color: var(--primary); cursor: pointer; padding: 0; font-size: 1rem; }
+        .track-name { font-size: 0.7rem; font-weight: 700; color: var(--primary); transition: color var(--transition-speed); }
+        .music-btn { background: none; border: none; color: var(--primary); cursor: pointer; font-size: 1rem; transition: color var(--transition-speed); }
         .volume-slider { -webkit-appearance: none; width: 50px; height: 2px; background: rgba(255, 204, 0, 0.2); outline: none; }
         .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; cursor: pointer; }
-        .bio { font-size: 1.1rem; color: #bbb; min-height: 1.4em; margin-bottom: 20px; font-family: 'Courier New', monospace; }
+        
+        .bio { font-size: 1.1rem; color: #bbb; min-height: 1.4em; margin-bottom: 25px; font-family: 'Courier New', monospace; }
         .background-gif { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://media.giphy.com/media/VZrfUvQjXaGEQy1RSn/giphy.gif') center/cover no-repeat; filter: brightness(0.1); z-index: -2; }
     </style>
 </head>
 <body>
+    <div id="custom-tooltip">TOOLTIP</div>
     <canvas id="fireflies-canvas"></canvas>
     <div class="cursor-glow"></div>
     <div class="background-gif"></div>
+
     <div class="language-picker">
         <img src="https://flagicons.lipis.dev/flags/4x3/gb.svg" data-lang="en" class="flag active">
         <img src="https://flagicons.lipis.dev/flags/4x3/fr.svg" data-lang="fr" class="flag">
         <img src="https://flagicons.lipis.dev/flags/4x3/de.svg" data-lang="de" class="flag">
     </div>
+
     <div id="click-overlay" class="click-overlay">
         <div style="text-align: center;">
             <h2 class="glitch" id="welcome-text">WELCOME</h2>
             <span id="click-hint" style="display:block; color:var(--primary); letter-spacing:5px; font-size:0.8rem; margin-top:10px;">CLICK TO ENTER</span>
         </div>
     </div>
+
     <div id="main-content" class="container">
-        <div style="margin-bottom:20px; display:flex; flex-direction:column; align-items:center; gap:10px;">
+        <div style="margin-bottom:20px;">
             <div style="font-family:'Courier New'; font-size:0.7rem; color:var(--primary); letter-spacing:2px;">
                 <i class="fa-solid fa-eye"></i> <span id="count">0</span> <span id="views-label">VIEWS</span>
             </div>
         </div>
+        
         <h1 class="glitch">clementrnxx</h1>
         <p id="bio" class="bio"></p>
+        
         <div class="icon-grid">
-            <a href="https://www.linkedin.com/in/cl%C3%A9ment-renaux-3a8815384/" target="_blank" class="icon-button"><i class="fa-brands fa-linkedin-in"></i></a>
-            <a href="https://instagram.com/clementrnxx" target="_blank" class="icon-button"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://github.com/clementrnx" target="_blank" class="icon-button"><i class="fa-brands fa-github"></i></a>
-            <a href="https://discord.gg/wA4kjzzksH" target="_blank" class="icon-button"><i class="fa-brands fa-discord"></i></a>
-            <a href="#" target="_blank" class="icon-button"><i class="fa-brands fa-spotify"></i></a>
-            <a href="https://tracker.gg/valorant/profile/riot/not%20bad%23AIM" target="_blank" class="icon-button"><i class="fa-solid fa-crosshairs"></i></a>
+            <a href="https://www.linkedin.com/in/cl%C3%A9ment-renaux-3a8815384/" target="_blank" class="icon-button" data-name="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://instagram.com/clementrnxx" target="_blank" class="icon-button" data-name="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://github.com/clementrnx" target="_blank" class="icon-button" data-name="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://discord.gg/wA4kjzzksH" target="_blank" class="icon-button" data-name="Discord"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" target="_blank" class="icon-button" data-name="Spotify"><i class="fa-brands fa-spotify"></i></a>
+            <a href="https://tracker.gg/valorant/profile/riot/not%20bad%23AIM" target="_blank" class="icon-button" data-name="Valorant"><i class="fa-solid fa-crosshairs"></i></a>
         </div>
+
         <h2 class="section-title" id="title-skills">Technical Skills</h2>
         <div class="skills-grid">
             <div class="skill-item"><i class="fa-brands fa-python"></i><span>PYTHON</span></div>
@@ -88,29 +135,66 @@
             <div class="skill-item"><i class="fa-brands fa-html5"></i><span>HTML</span></div>
             <div class="skill-item"><i class="fa-solid fa-microchip"></i><span>ASM</span></div>
         </div>
+
+        <h2 class="section-title" id="title-journey">Educational Journey</h2>
+        <div class="journey-container">
+            <div class="journey-item">
+                <div class="journey-dot"></div>
+                <div class="journey-content">
+                    <span class="journey-date">2016 — 2020</span>
+                    <h3 class="journey-title" id="j4-title">BREVET DES COLLÈGES</h3>
+                    <p class="journey-desc" id="j4-desc">Collège Évariste Galois. Mention TB.</p>
+                </div>
+            </div>
+            <div class="journey-item">
+                <div class="journey-dot"></div>
+                <div class="journey-content">
+                    <span class="journey-date">2020 — 2023</span>
+                    <h3 class="journey-title" id="j3-title">BACCALAURÉAT</h3>
+                    <p class="journey-desc" id="j3-desc">Lycée Porte de Normandie. Mention B. Spécialités Maths - PC - SI.</p>
+                </div>
+            </div>
+            <div class="journey-item">
+                <div class="journey-dot"></div>
+                <div class="journey-content">
+                    <span class="journey-date">2023 — 2025</span>
+                    <h3 class="journey-title" id="j2-title">CPGE - PC</h3>
+                    <p class="journey-desc" id="j2-desc">Lycée Victor Hugo, Caen. Intensive preparation in Physics and Chemistry.</p>
+                </div>
+            </div>
+            <div class="journey-item">
+                <div class="journey-dot"></div>
+                <div class="journey-content">
+                    <span class="journey-date">2025 — 2028</span>
+                    <h3 class="journey-title" id="j1-title">EPITA</h3>
+                    <p class="journey-desc" id="j1-desc">Engineering School of Computer Science. Diploma expected 2028.</p>
+                </div>
+            </div>
+        </div>
+
         <h2 class="section-title" id="title-projects">Recent Projects</h2>
         <div class="projects-grid">
             <div class="project-card">
                 <a href="https://github.com/clementrnx/footpredictor" target="_blank" class="git-link"><i class="fa-brands fa-github"></i></a>
                 <a href="https://itroz-footpredictor.streamlit.app/" target="_blank" class="project-main-link">
-                    <h3 style="color:var(--primary); margin:0; font-size:0.9rem;" id="p1-title">FOOT PREDICTOR</h3>
-                    <p style="font-size:0.75rem; color:#888; margin-top:5px;" id="p1-desc">AI Match Forecasting</p>
+                    <h3 id="p1-title">FOOT PREDICTOR</h3>
+                    <p id="p1-desc" style="font-size:0.75rem; color:#888; margin-top:5px;">AI Match Forecasting</p>
                 </a>
             </div>
             <div class="project-card">
-                <a href="https://github.com/clementrnx" target="_blank" class="git-link"><i class="fa-brands fa-github"></i></a>
+                <a href="https://github.com/clementrnx/TwitchTools" target="_blank" class="git-link"><i class="fa-brands fa-github"></i></a>
                 <div class="project-main-link">
-                    <h3 style="color:var(--primary); margin:0; font-size:0.9rem;" id="p2-title">TWITCH TOOLS</h3>
-                    <p style="font-size:0.75rem; color:#888; margin-top:5px;" id="p2-desc">Automation Utility</p>
+                    <h3 id="p2-title">TWITCH TOOLS</h3>
+                    <p id="p2-desc" style="font-size:0.75rem; color:#888; margin-top:5px;">Automation Utility</p>
                 </div>
             </div>
         </div>
     </div>
+
     <div id="music-player" class="music-player">
         <div class="player-cover"><img src="rsrc/pcht.jpeg"></div>
         <div class="track-info">
             <span class="track-name">Van Basten</span>
-            <span class="track-artist">R2 ft. Meryl</span>
             <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
                 <button id="music-toggle" class="music-btn"><i id="music-icon" class="fa-solid fa-pause"></i></button>
                 <input type="range" id="volume-control" class="volume-slider" min="0" max="1" step="0.01" value="0.5">
@@ -118,72 +202,77 @@
         </div>
     </div>
     <audio id="bg-music" loop><source src="rsrc/song.mp3" type="audio/mpeg"></audio>
+
     <script>
         const langData = {
-            fr: { welcome: "BIENVENUE", hint: "CLIQUEZ POUR ENTRER", views: "VUES", bio: "ÉTUDIANT À EPITA | PROMO 2028", skills: "COMPÉTENCES TECHNIQUES", projects: "PROJETS RÉCENTS", p1T: "PRÉDICTEUR FOOT", p1D: "Prévisions de matchs via IA", p2T: "OUTILS TWITCH", p2D: "Utilitaires d'automatisation" },
-            en: { welcome: "WELCOME", hint: "CLICK TO ENTER", views: "VIEWS", bio: "EPITA STUDENT | CLASS OF 2028", skills: "TECHNICAL SKILLS", projects: "RECENT PROJECTS", p1T: "FOOT PREDICTOR", p1D: "AI Match Forecasting", p2T: "TWITCH TOOLS", p2D: "Automation Utility" },
-            de: { welcome: "WILLKOMMEN", hint: "KLICKEN ZUM BETRETEN", views: "AUFRUFE", bio: "EPITA STUDENT | JAHRGANG 2028", skills: "TECHNISCHE SKILLS", projects: "AKTUELLE PROJEKTE", p1T: "FUSSBALL PROGNOSE", p1D: "KI-Match-Vorhersage", p2T: "TWITCH TOOLS", p2D: "Automatisierungstools" }
+            fr: { 
+                welcome: "BIENVENUE", hint: "CLIQUEZ POUR ENTRER", views: "VUES", bio: "ÉTUDIANT À EPITA | PROMO 2028", 
+                skills: "COMPÉTENCES TECHNIQUES", journey: "PARCOURS SCOLAIRE", projects: "PROJETS RÉCENTS", 
+                p1T: "PRÉDICTEUR FOOT", p1D: "Prévisions de matchs via IA", p2T: "OUTILS TWITCH", p2D: "Utilitaires d'automatisation",
+                j1T: "EPITA", j1D: "École d'ingénieurs en informatique. Diplôme prévu pour 2028.",
+                j2T: "CPGE - PC", j2D: "Lycée Victor Hugo, Caen. Classe préparatoire Physique et Chimie.",
+                j3T: "BACCALAURÉAT", j3D: "Lycée Porte de Normandie. Mention B. Spécialités Maths - PC - SI.",
+                j4T: "BREVET DES COLLÈGES", j4D: "Collège Évariste Galois. Mention TB."
+            },
+            en: { 
+                welcome: "WELCOME", hint: "CLICK TO ENTER", views: "VIEWS", bio: "EPITA STUDENT | CLASS OF 2028", 
+                skills: "TECHNICAL SKILLS", journey: "EDUCATIONAL JOURNEY", projects: "RECENT PROJECTS", 
+                p1T: "FOOT PREDICTOR", p1D: "AI Match Forecasting", p2T: "TWITCH TOOLS", p2D: "Automation Utility",
+                j1T: "EPITA", j1D: "Engineering School of Computer Science. Diploma expected 2028.",
+                j2T: "CPGE - PC", j2D: "Lycée Victor Hugo, Caen. Intensive preparation in Physics and Chemistry.",
+                j3T: "BACCALAURÉAT", j3D: "Lycée Porte de Normandie. Mention B. Spécialités Maths - PC - SI.",
+                j4T: "BREVET DES COLLÈGES", j4D: "Collège Évariste Galois. Mention TB."
+            },
+            de: { 
+                welcome: "WILLKOMMEN", hint: "KLICKEN ZUM BETRETEN", views: "AUFRUFE", bio: "EPITA STUDENT | JAHRGANG 2028", 
+                skills: "TECHNISCHE SKILLS", journey: "BILDUNGSWEG", projects: "AKTUELLE PROJEKTE", 
+                p1T: "FUSSBALL PROGNOSE", p1D: "KI-Match-Vorhersage", p2T: "TWITCH TOOLS", p2D: "Automatisierungstools",
+                j1T: "EPITA", j1D: "Informatik-Ingenieurschule. Abschluss voraussichtlich 2028.",
+                j2T: "CPGE - PC", j2D: "Lycée Victor Hugo, Caen. Intensive Vorbereitung in Physik und Chemie.",
+                j3T: "ABITUR", j3D: "Lycée Porte de Normandie. Schwerpunkte Mathe - PC - SI.",
+                j4T: "REALSCHULABSCHLUSS", j4D: "Collège Évariste Galois. Mit höchster Auszeichnung bestanden."
+            }
         };
+
         const canvas = document.getElementById('fireflies-canvas');
         const ctx = canvas.getContext('2d');
         const glow = document.querySelector('.cursor-glow');
         const audio = document.getElementById('bg-music');
-        let currentLang = 'en';
-        let audioCtx, source, lowpass, gainNode;
-        let mouse = { x: -1000, y: -1000 };
-        let currentTypewriterId = 0;
-        let isEntered = false;
+        const tooltip = document.getElementById('custom-tooltip');
+        let currentLang = 'en', audioCtx, source, lowpass, gainNode, mouse = { x: -1000, y: -1000 }, currentTypewriterId = 0, isEntered = false, inputBuffer = "";
+        const colors = { "EPITA": "#0066ff", "RED": "#ff0000", "YELLOW": "#ffcc00", "GREEN": "#00ff00", "PURPLE": "#8800ff", "WHITE": "#ffffff", "ORANGE": "#ff8800", "CYAN": "#00ffff" };
 
-        function updateLanguage(lang) {
-            currentLang = lang;
-            const d = langData[lang];
-            document.getElementById('welcome-text').innerText = d.welcome;
-            document.getElementById('click-hint').innerText = d.hint;
-            document.getElementById('views-label').innerText = d.views;
-            document.getElementById('title-skills').innerText = d.skills;
-            document.getElementById('title-projects').innerText = d.projects;
-            document.getElementById('p1-title').innerText = d.p1T;
-            document.getElementById('p1-desc').innerText = d.p1D;
-            document.getElementById('p2-title').innerText = d.p2T;
-            document.getElementById('p2-desc').innerText = d.p2D;
-            if(document.getElementById('click-overlay').style.visibility === 'hidden') startBioTypewriter(d.bio);
-        }
-        function startBioTypewriter(text) {
-            currentTypewriterId++;
-            const thisId = currentTypewriterId;
-            const bioElement = document.getElementById('bio');
-            bioElement.innerHTML = "";
-            typeWriterEffect(text, 0, bioElement, thisId);
-        }
-        function typeWriterEffect(text, i, element, sessionId) {
-            if (sessionId !== currentTypewriterId) return;
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                setTimeout(() => typeWriterEffect(text, i + 1, element, sessionId), 60);
-            }
-        }
         let fireflies = [];
         function initFireflies() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             fireflies = [];
-            for(let i=0; i<45; i++) fireflies.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 1.8 + 0.5, vx: Math.random() * 0.6 - 0.3, vy: Math.random() * 0.6 - 0.3, o: Math.random() * 0.7 + 0.2 });
+            for(let i=0; i<50; i++) fireflies.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 2 + 0.5, vx: Math.random() * 0.6 - 0.3, vy: Math.random() * 0.6 - 0.3, o: Math.random() * 0.7 + 0.2 });
         }
+
         function drawFireflies() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const pColor = getComputedStyle(document.body.classList.contains('rainbow-mode') ? document.querySelector('.glitch') : document.documentElement).getPropertyValue(document.body.classList.contains('rainbow-mode') ? 'color' : '--primary').trim();
             fireflies.forEach(f => {
                 f.x += f.vx; f.y += f.vy;
-                let dx = f.x - mouse.x; let dy = f.y - mouse.y;
-                let dist = Math.sqrt(dx*dx + dy*dy);
+                let dx = f.x - mouse.x, dy = f.y - mouse.y, dist = Math.sqrt(dx*dx + dy*dy);
                 if(dist < 180) { let force = (180 - dist) / 180; f.x += (dx/dist) * force * 4; f.y += (dy/dist) * force * 4; }
-                if(f.x < 0) f.x = canvas.width; if(f.x > canvas.width) f.x = 0;
-                if(f.y < 0) f.y = canvas.height; if(f.y > canvas.height) f.y = 0;
-                ctx.beginPath(); ctx.arc(f.x, f.y, f.s, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 204, 0, ${f.o})`;
-                ctx.shadowBlur = 8; ctx.shadowColor = "#ffcc00"; ctx.fill(); ctx.shadowBlur = 0;
+                if(f.x < 0) f.x = canvas.width; if(f.x > canvas.width) f.x = 0; if(f.y < 0) f.y = canvas.height; if(f.y > canvas.height) f.y = 0;
+                ctx.beginPath(); ctx.arc(f.x, f.y, f.s, 0, Math.PI * 2); ctx.fillStyle = pColor; ctx.shadowBlur = 10; ctx.shadowColor = pColor; ctx.fill(); ctx.shadowBlur = 0;
             });
             requestAnimationFrame(drawFireflies);
         }
-        window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; });
+
+        window.addEventListener('keydown', (e) => {
+            inputBuffer += e.key.toUpperCase();
+            if (inputBuffer.length > 10) inputBuffer = inputBuffer.substring(inputBuffer.length - 10);
+            for (const [name, hex] of Object.entries(colors)) {
+                if (inputBuffer.endsWith(name)) { document.body.classList.remove('rainbow-mode'); document.documentElement.style.setProperty('--primary', hex); playTone(440); inputBuffer = ""; }
+            }
+            if (inputBuffer.endsWith("RAINBOW")) { document.body.classList.add('rainbow-mode'); playTone(600); inputBuffer = ""; }
+        });
+
+        function playTone(freq) { if(audioCtx) { const o = audioCtx.createOscillator(), g = audioCtx.createGain(); o.frequency.setValueAtTime(freq, audioCtx.currentTime); g.gain.setValueAtTime(0.1, audioCtx.currentTime); g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2); o.connect(g).connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + 0.2); } }
+
         function handleEntry() {
             if (isEntered) return;
             isEntered = true;
@@ -196,47 +285,82 @@
                 lowpass.type = 'lowpass';
                 source.connect(lowpass).connect(gainNode).connect(audioCtx.destination);
             }
+            
             const now = audioCtx.currentTime;
-            const osc = audioCtx.createOscillator(); const oscG = audioCtx.createGain(); const filt = audioCtx.createBiquadFilter();
-            osc.type='triangle'; osc.frequency.setValueAtTime(100, now); osc.frequency.exponentialRampToValueAtTime(30, now+0.6);
-            filt.type='lowpass'; filt.frequency.setValueAtTime(150, now); oscG.gain.setValueAtTime(1.5, now); oscG.gain.exponentialRampToValueAtTime(0.001, now+0.9);
-            osc.connect(filt).connect(oscG).connect(audioCtx.destination); osc.start(); osc.stop(now+1);
-            const buzz = audioCtx.createOscillator(); const buzzG = audioCtx.createGain();
-            buzz.frequency.setValueAtTime(1200, now); buzzG.gain.setValueAtTime(0, now); buzzG.gain.linearRampToValueAtTime(0.06, now+0.2); buzzG.gain.exponentialRampToValueAtTime(0.0001, now+6);
-            buzz.connect(buzzG).connect(audioCtx.destination); buzz.start(); buzz.stop(now+6);
+
+            const osc = audioCtx.createOscillator(); 
+            const oscG = audioCtx.createGain(); 
+            const filt = audioCtx.createBiquadFilter();
+            osc.type='triangle'; 
+            osc.frequency.setValueAtTime(100, now); 
+            osc.frequency.exponentialRampToValueAtTime(30, now+0.6);
+            filt.type='lowpass'; 
+            filt.frequency.setValueAtTime(150, now); 
+            oscG.gain.setValueAtTime(1.5, now); 
+            oscG.gain.exponentialRampToValueAtTime(0.001, now+0.9);
+            osc.connect(filt).connect(oscG).connect(audioCtx.destination); 
+            osc.start(); 
+            osc.stop(now+1);
+
+            const buzz = audioCtx.createOscillator(); 
+            const buzzG = audioCtx.createGain();
+            buzz.frequency.setValueAtTime(1200, now); 
+            buzzG.gain.setValueAtTime(0, now); 
+            buzzG.gain.linearRampToValueAtTime(0.06, now+0.2); 
+            buzzG.gain.exponentialRampToValueAtTime(0.0001, now+6);
+            buzz.connect(buzzG).connect(audioCtx.destination); 
+            buzz.start(); 
+            buzz.stop(now+6);
+
             audio.play();
             const targetVol = document.getElementById('volume-control').value;
             lowpass.frequency.setValueAtTime(100, now); 
             lowpass.frequency.exponentialRampToValueAtTime(20000, now + 5); 
             gainNode.gain.setValueAtTime(0.01, now);
             gainNode.gain.linearRampToValueAtTime(targetVol, now + 5); 
-            const overlay = document.getElementById('click-overlay');
-            overlay.style.opacity = '0';
+
+            document.getElementById('click-overlay').style.opacity = '0';
             document.getElementById('music-player').style.opacity = '1';
             setTimeout(() => startBioTypewriter(langData[currentLang].bio), 1000);
-            setTimeout(() => overlay.style.visibility = 'hidden', 2000);
+            setTimeout(() => document.getElementById('click-overlay').style.visibility = 'hidden', 2000);
         }
-        document.getElementById('click-overlay').addEventListener('click', (e) => {
-            if (e.target.classList.contains('flag')) return;
-            handleEntry();
+
+        function updateLanguage(lang) {
+            currentLang = lang; const d = langData[lang];
+            document.getElementById('welcome-text').innerText = d.welcome; document.getElementById('click-hint').innerText = d.hint;
+            document.getElementById('views-label').innerText = d.views; document.getElementById('title-skills').innerText = d.skills;
+            document.getElementById('title-journey').innerText = d.journey; document.getElementById('title-projects').innerText = d.projects;
+            document.getElementById('p1-title').innerText = d.p1T; document.getElementById('p1-desc').innerText = d.p1D;
+            document.getElementById('p2-title').innerText = d.p2T; document.getElementById('p2-desc').innerText = d.p2D;
+            document.getElementById('j1-title').innerText = d.j1T; document.getElementById('j1-desc').innerText = d.j1D;
+            document.getElementById('j2-title').innerText = d.j2T; document.getElementById('j2-desc').innerText = d.j2D;
+            document.getElementById('j3-title').innerText = d.j3T; document.getElementById('j3-desc').innerText = d.j3D;
+            document.getElementById('j4-title').innerText = d.j4T; document.getElementById('j4-desc').innerText = d.j4D;
+            if(isEntered) startBioTypewriter(d.bio);
+        }
+
+        function startBioTypewriter(text) { currentTypewriterId++; const tid = currentTypewriterId, el = document.getElementById('bio'); el.innerHTML = ""; type(text, 0, el, tid); }
+        function type(t, i, el, sid) { if (sid === currentTypewriterId && i < t.length) { el.innerHTML += t.charAt(i); setTimeout(() => type(t, i+1, el, sid), 60); } }
+
+        document.querySelectorAll('.icon-button').forEach(btn => {
+            btn.addEventListener('mouseenter', () => { tooltip.innerText = btn.dataset.name; tooltip.style.opacity = '1'; });
+            btn.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
         });
-        document.getElementById('music-toggle').addEventListener('click', () => {
-            if(audio.paused) { audio.play(); document.getElementById('music-icon').className="fa-solid fa-pause"; }
-            else { audio.pause(); document.getElementById('music-icon').className="fa-solid fa-play"; }
+
+        window.addEventListener('mousemove', e => { 
+            mouse.x = e.clientX; mouse.y = e.clientY; 
+            glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px';
+            tooltip.style.left = e.clientX + 'px'; tooltip.style.top = e.clientY + 'px';
+            tooltip.style.transform = 'translate(-50%, -45px)';
         });
-        document.getElementById('volume-control').addEventListener('input', (e) => { if(gainNode) gainNode.gain.setTargetAtTime(e.target.value, audioCtx.currentTime, 0.02); });
-        document.querySelectorAll('.flag').forEach(f => {
-            f.addEventListener('click', (e) => {
-                e.stopPropagation();
-                document.querySelectorAll('.flag').forEach(img => img.classList.remove('active'));
-                f.classList.add('active');
-                updateLanguage(f.dataset.lang);
-            });
-        });
-        updateLanguage('en');
-        const savedViews = localStorage.getItem('userViews') || Math.floor(Math.random()*500+1200);
-        localStorage.setItem('userViews', savedViews); document.getElementById('count').innerText = savedViews;
-        initFireflies(); drawFireflies(); window.onresize = initFireflies;
+
+        document.getElementById('click-overlay').addEventListener('click', (e) => { if (!e.target.classList.contains('flag')) handleEntry(); });
+        document.getElementById('music-toggle').addEventListener('click', () => { if(audio.paused) { audio.play(); document.getElementById('music-icon').className="fa-solid fa-pause"; } else { audio.pause(); document.getElementById('music-icon').className="fa-solid fa-play"; } });
+        document.getElementById('volume-control').addEventListener('input', e => gainNode && gainNode.gain.setTargetAtTime(e.target.value, audioCtx.currentTime, 0.02));
+        document.querySelectorAll('.flag').forEach(f => f.addEventListener('click', e => { e.stopPropagation(); document.querySelectorAll('.flag').forEach(img => img.classList.remove('active')); f.classList.add('active'); updateLanguage(f.dataset.lang); }));
+        
+        updateLanguage('en'); initFireflies(); drawFireflies(); window.onresize = initFireflies;
+        const v = localStorage.getItem('userViews') || Math.floor(Math.random()*500+1200); localStorage.setItem('userViews', v); document.getElementById('count').innerText = v;
     </script>
 </body>
 </html>
