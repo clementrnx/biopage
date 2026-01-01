@@ -99,6 +99,7 @@
         <img src="https://flagicons.lipis.dev/flags/4x3/gb.svg" data-lang="en" class="flag active">
         <img src="https://flagicons.lipis.dev/flags/4x3/fr.svg" data-lang="fr" class="flag">
         <img src="https://flagicons.lipis.dev/flags/4x3/de.svg" data-lang="de" class="flag">
+        <img src="https://flagicons.lipis.dev/flags/4x3/dz.svg" data-lang="dz" class="flag">
     </div>
 
     <div id="click-overlay" class="click-overlay">
@@ -231,6 +232,15 @@
                 j2T: "CPGE - PC", j2D: "Lycée Victor Hugo, Caen. Intensive Vorbereitung in Physik und Chemie.",
                 j3T: "ABITUR", j3D: "Lycée Porte de Normandie. Schwerpunkte Mathe - PC - SI.",
                 j4T: "REALSCHULABSCHLUSS", j4D: "Collège Évariste Galois. Mit höchster Auszeichnung bestanden."
+            },
+            dz: { 
+                welcome: "مرحباً", hint: "كليكي باش تدخل", views: "مشاهدات", bio: "طالب في EPITA | دفعة 2028", 
+                skills: "المهارات التقنية", journey: "المسار الدراسي", projects: "المشاريع الأخيرة", 
+                p1T: "توقعات كرة القدم", p1D: "توقعات المباريات بالذكاء الاصطناعي", p2T: "أدوات تويتش", p2D: "أدوات الأتمتة",
+                j1T: "إيبيتا", j1D: "مدرسة مهندسين في الإعلام الآلي. التخرج في 2028.",
+                j2T: "الأقسام التحضيرية", j2D: "ثانوية فيكتور هوغو، كاين. تحضير مكثف في الفيزياء والكيمياء.",
+                j3T: "البكالوريا", j3D: "ثانوية بورت دو نورماندي. ميزة قريب من الجيد. تخصص رياضيات.",
+                j4T: "شهادة التعليم المتوسط", j4D: "إعدادية إيفاريست غالوا. ميزة جيد جداً."
             }
         };
 
@@ -327,6 +337,8 @@
 
         function updateLanguage(lang) {
             currentLang = lang; const d = langData[lang];
+            const content = document.getElementById('main-content');
+            content.style.direction = (lang === 'dz') ? 'rtl' : 'ltr';
             document.getElementById('welcome-text').innerText = d.welcome; document.getElementById('click-hint').innerText = d.hint;
             document.getElementById('views-label').innerText = d.views; document.getElementById('title-skills').innerText = d.skills;
             document.getElementById('title-journey').innerText = d.journey; document.getElementById('title-projects').innerText = d.projects;
