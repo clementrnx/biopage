@@ -86,7 +86,18 @@
         .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 8px; height: 8px; background: var(--primary); border-radius: 50%; cursor: pointer; }
         
         .bio { font-size: 1.1rem; color: #bbb; min-height: 1.4em; margin-bottom: 25px; font-family: 'Courier New', monospace; }
-        .background-gif { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://media.giphy.com/media/VZrfUvQjXaGEQy1RSn/giphy.gif') center/cover no-repeat; filter: brightness(0.1); z-index: -2; }
+        
+        .background-gif { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://media.giphy.com/media/VZrfUvQjXaGEQy1RSn/giphy.gif') center/cover no-repeat; filter: brightness(0.1); z-index: -2; transition: background 0.5s ease; }
+
+        @media (max-width: 600px) {
+            .background-gif { 
+                background-size: cover; 
+                background-position: 75% center;
+            }
+            .glitch { font-size: 2.2rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .container { padding: 80px 0 40px 0; }
+        }
     </style>
 </head>
 <body>
@@ -297,31 +308,6 @@
             }
             
             const now = audioCtx.currentTime;
-
-            const osc = audioCtx.createOscillator(); 
-            const oscG = audioCtx.createGain(); 
-            const filt = audioCtx.createBiquadFilter();
-            osc.type='triangle'; 
-            osc.frequency.setValueAtTime(100, now); 
-            osc.frequency.exponentialRampToValueAtTime(30, now+0.6);
-            filt.type='lowpass'; 
-            filt.frequency.setValueAtTime(150, now); 
-            oscG.gain.setValueAtTime(1.5, now); 
-            oscG.gain.exponentialRampToValueAtTime(0.001, now+0.9);
-            osc.connect(filt).connect(oscG).connect(audioCtx.destination); 
-            osc.start(); 
-            osc.stop(now+1);
-
-            const buzz = audioCtx.createOscillator(); 
-            const buzzG = audioCtx.createGain();
-            buzz.frequency.setValueAtTime(1200, now); 
-            buzzG.gain.setValueAtTime(0, now); 
-            buzzG.gain.linearRampToValueAtTime(0.06, now+0.2); 
-            buzzG.gain.exponentialRampToValueAtTime(0.0001, now+6);
-            buzz.connect(buzzG).connect(audioCtx.destination); 
-            buzz.start(); 
-            buzz.stop(now+6);
-
             audio.play();
             const targetVol = document.getElementById('volume-control').value;
             lowpass.frequency.setValueAtTime(100, now); 
