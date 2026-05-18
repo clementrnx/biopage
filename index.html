@@ -146,6 +146,10 @@
             <div class="skill-item"><i class="fa-solid fa-database"></i><span>SQL</span></div>
             <div class="skill-item"><i class="fa-brands fa-html5"></i><span>HTML</span></div>
             <div class="skill-item"><i class="fa-solid fa-microchip"></i><span>ASM</span></div>
+            <div class="skill-item"><i class="fa-brands fa-js"></i><span id="skill-js">JS</span></div>
+            <div class="skill-item"><i class="fa-solid fa-network-wired"></i><span id="skill-jws">JWS</span></div>
+            <div class="skill-item"><i class="fa-brands fa-java"></i><span id="skill-java">JAVA</span></div>
+            <div class="skill-item"><i class="fa-solid fa-code"></i><span id="skill-cpp">C++</span></div>
         </div>
 
         <h2 class="section-title" id="title-journey">Educational Journey</h2>
@@ -224,7 +228,8 @@
                 j1T: "EPITA", j1D: "École d'ingénieurs en informatique. Diplôme prévu pour 2028.",
                 j2T: "CPGE - PC", j2D: "Lycée Victor Hugo, Caen. Classe préparatoire Physique et Chimie.",
                 j3T: "BACCALAURÉAT", j3D: "Lycée Porte de Normandie. Mention B. Spécialités Maths - PC - SI.",
-                j4T: "BREVET DES COLLÈGES", j4D: "Collège Évariste Galois. Mention TB."
+                j4T: "BREVET DES COLLÈGES", j4D: "Collège Évariste Galois. Mention TB.",
+                sJS: "JS", sJWS: "JWS", sJava: "JAVA", sCPP: "CPP"
             },
             en: { 
                 welcome: "WELCOME", hint: "CLICK TO ENTER", views: "VIEWS", bio: "EPITA STUDENT | CLASS OF 2028", 
@@ -233,7 +238,8 @@
                 j1T: "EPITA", j1D: "Engineering School of Computer Science. Diploma expected 2028.",
                 j2T: "CPGE - PC", j2D: "Lycée Victor Hugo, Caen. Intensive preparation in Physics and Chemistry.",
                 j3T: "BACCALAURÉAT", j3D: "Lycée Porte de Normandie. Mention B. Spécialités Maths - PC - SI.",
-                j4T: "BREVET DES COLLÈGES", j4D: "Collège Évariste Galois. Mention TB."
+                j4T: "BREVET DES COLLÈGES", j4D: "Collège Évariste Galois. Mention TB.",
+                sJS: "JS", sJWS: "JWS", sJava: "JAVA", sCPP: "CPP"
             },
             de: { 
                 welcome: "WILLKOMMEN", hint: "KLICKEN ZUM BETRETEN", views: "AUFRUFE", bio: "EPITA STUDENT | JAHRGANG 2028", 
@@ -242,7 +248,8 @@
                 j1T: "EPITA", j1D: "Informatik-Ingenieurschule. Abschluss voraussichtlich 2028.",
                 j2T: "CPGE - PC", j2D: "Lycée Victor Hugo, Caen. Intensive Vorbereitung in Physik und Chemie.",
                 j3T: "ABITUR", j3D: "Lycée Porte de Normandie. Schwerpunkte Mathe - PC - SI.",
-                j4T: "REALSCHULABSCHLUSS", j4D: "Collège Évariste Galois. Mit höchster Auszeichnung bestanden."
+                j4T: "REALSCHULABSCHLUSS", j4D: "Collège Évariste Galois. Mit höchster Auszeichnung bestanden.",
+                sJS: "JS", sJWS: "JWS", sJava: "JAVA", sCPP: "CPP"
             },
             dz: { 
                 welcome: "مرحباً", hint: "كليكي باش تدخل", views: "مشاهدات", bio: "طالب في EPITA | دفعة 2028", 
@@ -251,7 +258,8 @@
                 j1T: "إيبيتا", j1D: "مدرسة مهندسين في الإعلام الآلي. التخرج في 2028.",
                 j2T: "الأقسام التحضيرية", j2D: "ثانوية فيكتور هوغو، كاين. تحضير مكثف في الفيزياء والكيمياء.",
                 j3T: "البكالوريا", j3D: "ثانوية بورت دو نورماندي. ميزة قريب من الجيد. تخصص رياضيات.",
-                j4T: "شهادة التعليم المتوسط", j4D: "إعدادية إيفاريست غالوا. ميزة جيد جداً."
+                j4T: "شهادة التعليم المتوسط", j4D: "إعدادية إيفاريست غالوا. ميزة جيد جداً.",
+                sJS: "JS", sJWS: "JWS", sJava: "JAVA", sCPP: "CPP"
             }
         };
 
@@ -334,6 +342,8 @@
             document.getElementById('j2-title').innerText = d.j2T; document.getElementById('j2-desc').innerText = d.j2D;
             document.getElementById('j3-title').innerText = d.j3T; document.getElementById('j3-desc').innerText = d.j3D;
             document.getElementById('j4-title').innerText = d.j4T; document.getElementById('j4-desc').innerText = d.j4D;
+            document.getElementById('skill-js').innerText = d.sJS; document.getElementById('skill-jws').innerText = d.sJWS;
+            document.getElementById('skill-java').innerText = d.sJava; document.getElementById('skill-cpp').innerText = d.sCPP;
             if(isEntered) startBioTypewriter(d.bio);
         }
 
